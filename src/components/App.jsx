@@ -1,24 +1,28 @@
-import { Component } from 'react';
-import videos from '../data/videos.json';
-
-import VideoList from './VideoList';
-import Player from './Player';
+import React, { Component } from 'react';
+import PlayerPage from './PlayerPage';
+import ReaderPage from './ReaderPage';
+import { Controls } from './App.styled';
 
 class App extends Component {
-  state = {
-    selectedVideo: null,
-  };
+  state = { currentPage: 'Reader' };
 
-  selectedVideo = link => {
-    this.setState({ selectedVideo: link });
+  onClick = e => {
+    this.setState({ currentPage: e.currentTarget.name });
   };
 
   render() {
     return (
       <div>
-        <h1>Selected video: {this.state.selectedVideo}</h1>
-        <VideoList videos={videos} onSelect={this.selectedVideo} />
-        <Player url={this.state.selectedVideo} />
+        <Controls>
+          <button type="button" onClick={this.onClick} name="Player">
+            Player
+          </button>
+          <button type="button" onClick={this.onClick} name="Reader">
+            Reader
+          </button>
+        </Controls>
+        {this.state.currentPage === 'Reader' && <ReaderPage />}
+        {this.state.currentPage === 'Player' && <PlayerPage />}
       </div>
     );
   }
